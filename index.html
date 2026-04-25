@@ -2,62 +2,495 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Términos de Servicio - Bot Asistente de Derecho</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulacro CGR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-        h1, h2 { color: #333; }
-        ul { margin-bottom: 20px; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .opt-card { transition: all 0.2s; border: 1px solid #e2e8f0; }
+        .opt-card:hover { border-color: #6366f1; background: #f8fafc; }
+        .opt-card.selected { border-color: #4f46e5; background: #eef2ff; box-shadow: 0 0 0 1px #4f46e5; }
+        
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
     </style>
 </head>
-<body>
-    <h1>Términos de Servicio</h1>
-    <p><strong>Bot Asistente del Monitor de Derecho</strong><br>
-    Última actualización: Abril 2026</p>
+<body class="text-slate-800 bg-slate-100 h-screen flex flex-col overflow-hidden">
 
-    <p>Bienvenido al Bot Asistente del Monitor de Derecho. Este bot es una herramienta gratuita creada para facilitar la comunicación con los estudiantes del curso.</p>
+    <!-- DATA STORAGE -->
+    <script>const DB = [{"id":1,"comp":"Lectura Crítica","tema":"General","txt":"Según el texto, para que la atención primaria en salud, por parte de la medicina oficial, pueda atender a más del 20% de la población, sería necesario principalmente:","opts":{"A":"promover sistemas de financiación adecuados y equitativos que canalicen los recursos necesarios para lograr una atención de mejor calidad y con mayor cobertura.","B":"prever el envejecimiento demográfico de la población, las estructuras familiares cambiantes, y el de los mercados de trabajo informales.","C":"respetar el derecho a los servicios de salud, el respeto a las diferencias culturales y a los principios de igualdad y de no discriminación.","D":"crear un sistema de información, con un enfoque de Derechos Humanos, que permita evaluar los avances en salud."},"ans":"A","just":"Sin justificación"},{"id":2,"comp":"Lectura Crítica","tema":"General","txt":"La promoción de estudios académicos para determinar cuáles de las prácticas usadas por la medicina popular son perjudiciales y cuáles brindan alternativas de salud implica que:","opts":{"A":"se prolongue la inconformidad de quienes practican la medicina oficial.","B":"se inicien procesos de regulación oficiales sobre este tipo de prácticas.","C":"se derogue la ley de que la medicina científica es la única oficial.","D":"se extienda la brecha entre la medicina química y la medicina botánica."},"ans":"B","just":"Sin justificación"},{"id":3,"comp":"Lectura Crítica","tema":"General","txt":"En el segundo párrafo, se desvirtúa a los opositores de la tauromaquia:","opts":{"A":"citando la opinión de una fuente reconocida como David Silveti.","B":"denunciando su falta de comprensión del arte del toreo.","C":"alabando la forma en que se tortura al animal en el ruedo.","D":"señalando el carácter natural de la muerte del toro."},"ans":"B","just":"Sin justificación"},{"id":4,"comp":"Lectura Crítica","tema":"General","txt":"Entre las razones dadas por Jorge Nacif para sustentar su tesis, resulta una falacia:","opts":{"A":"decir que es un arte, pues para otras personas la tauromaquia puede no tener absolutamente nada de artístico.","B":"citar a David Silveti, pues él es un reconocido torero que evidentemente tendrá la misma opinión del autor respecto a la tauromaquia.","C":"recurrir a un referente histórico para expresar que, aunque desde los inicios de la tauromaquia ha habido detractores, nunca han logrado impedirla.","D":"indicar que el toro, como todos los seres, debe morir, porque establece una analogía entre un hecho natural y la muerte provocada."},"ans":"D","just":"Sin justificación"},{"id":5,"comp":"Lectura Crítica","tema":"General","txt":"De acuerdo con Arturo Escobar, el propósito de la doctrina Truman era:","opts":{"A":"crear condiciones para reproducir en todo el mundo los rasgos característicos de las sociedades avanzadas.","B":"adoptar, en el primer mundo, el sueño americano de paz y abundancia, la educación y los valores culturales modernos.","C":"iniciar una nueva era en la comprensión y manejo de los asuntos de los países económicamente más avanzados.","D":"generar altos niveles de industrialización y urbanización, tecnificando la agricultura de los países desarrollados."},"ans":"A","just":"Sin justificación"},{"id":6,"comp":"Lectura Crítica","tema":"General","txt":"Para alcanzar los propósitos de la doctrina, Harry Truman proponía como estrategia:","opts":{"A":"elevar los niveles de industrialización y urbanización.","B":"tratar equitativamente a todas las naciones y a todos los pueblos del planeta.","C":"producir más fortaleciendo la alianza entre capital, ciencia y tecnología.","D":"mitigar las condiciones de pobreza, hambre y miseria en todas las áreas del globo."},"ans":"C","just":"Sin justificación"},{"id":7,"comp":"Lectura Crítica","tema":"General","txt":"La bicicleta averiada le da a Felipe una oportunidad de:","opts":{"A":"insultar a su padre.","B":"buscar el apoyo de su padre.","C":"mostrar su resentimiento contra Isabel.","D":"demostrarle a Isabel que él es casi un adulto."},"ans":"C","just":"Sin justificación"},{"id":8,"comp":"Lectura Crítica","tema":"General","txt":"Cuando Helena está discutiendo con David, ella:","opts":{"A":"enfatiza sus puntos de vista.","B":"indaga por los intereses del otro.","C":"se concentra en la búsqueda de un acuerdo.","D":"convierte la discusión en un ataque personal."},"ans":"A","just":"Sin justificación"},{"id":9,"comp":"Lectura Crítica","tema":"General","txt":"Helena cambió su expresión porque:","opts":{"A":"David compró un árbol.","B":"el árbol le pareció costoso.","C":"el árbol no tenía la mejor apariencia.","D":"David quería sembrar el árbol en el jardín."},"ans":"C","just":"Sin justificación"},{"id":10,"comp":"Lectura Crítica","tema":"General","txt":"El mensaje que el publicista quiso enviar al poner una vaca y referirse al envase de Tetra Pak se podría enunciar así:","opts":{"A":"Proteja el planeta utilizando envases reciclables y renovables.","B":"Lleve la leche con la frescura que tiene en su envase natural.","C":"Mantenga por más tiempo sus alimentos en óptimas condiciones.","D":"Protéjase de la luz y del aire utilizando materias primas recicladas."},"ans":"B","just":"Sin justificación"},{"id":11,"comp":"Lectura Crítica","tema":"General","txt":"Considere el enunciado sobre Tetra Pak. Este texto induce al lector a pensar erróneamente que:","opts":{"A":"los alimentos no se conservarán frescos, si no se utilizan envases Tetra Pak.","B":"como el Tetra Pak está hecho con materiales reciclables, no deja pasar la luz ni el aire.","C":"ya que los productos son envasados en Tetra Pak, tienen una duración ilimitada.","D":"los envases que conservan los alimentos y el ambiente son los Tetra Pak."},"ans":"B","just":"Sin justificación"},{"id":12,"comp":"Lectura Crítica","tema":"General","txt":"Mafalda le da a la tortuga el nombre Burocracia con el propósito de destacar que la burocracia es:","opts":{"A":"silenciosa y tranquila en su comportamiento.","B":"tímida para relacionarse con personas desconocidas.","C":"organizada para administrar su tiempo y el de los demás.","D":"caprichosa en la organización de los horarios."},"ans":"D","just":"Sin justificación"},{"id":13,"comp":"Lectura Crítica","tema":"General","txt":"La afirmación La era de la mencionada sociedad de la información es también la de la producción de estados mentales es:","opts":{"A":"una conclusión a la que llega la autora del texto después de reconocer que hay un nuevo tipo de consumidor.","B":"una idea que se supone verdadera así no se planteen evidencias para comprobarla.","C":"una inferencia que resulta de relacionar las ideas del texto con la imagen del consumidor de la cultura light.","D":"un argumento sustentado desde el concepto de sociedad de la información asumido en el texto."},"ans":"A","just":"Sin justificación"},{"id":14,"comp":"Lectura Crítica","tema":"General","txt":"De las siguientes ideas, la que se opone a la idea central defendida por el autor es:","opts":{"A":"Las corridas de toros deben prohibirse.","B":"Las fiestas taurinas son rituales de tortura.","C":"La crianza de animales es una acción hipócrita.","D":"La tolerancia es el medio para superar el desacuerdo."},"ans":"B","just":"Sin justificación"},{"id":15,"comp":"Lectura Crítica","tema":"General","txt":"La afirmación de Luisa, Si estoy con un man que me gusta porque sí, ¿por qué no voy a estar con otro por plata?, implica que ella:","opts":{"A":"toma decisiones dentro de las normas de una comunidad.","B":"no le da más importancia a los sentimientos que al dinero.","C":"gusta de los hombres que tienen dinero.","D":"la opinión de los demás es importante a la hora de tomar decisiones."},"ans":"B","just":"Sin justificación"},{"id":16,"comp":"Lectura Crítica","tema":"General","txt":"De los siguientes enunciados, ¿cuál NO se puede deducir correctamente de la afirmación un hombre es justo solo si su conducta se adecúa a las normas de un orden social supuestamente justo?","opts":{"A":"Un hombre que se comporta justamente sigue las normas de un orden social.","B":"Todo hombre que no se adecúe a las normas de un orden social justo es injusto.","C":"Hay hombres que se adecúan a un orden social supuestamente justo y sin embargo son injustos.","D":"No hay hombres que se adecúen a un orden social supuestamente justo y sin embargo sean injustos."},"ans":"C","just":"Sin justificación"},{"id":17,"comp":"Lectura Crítica","tema":"General","txt":"Considere el siguiente fragmento sobre la Justicia y el orden social. Las palabras subrayadas (pero no necesaria / ya que) indican respectivamente:","opts":{"A":"una oposición y una salvedad.","B":"una aclaración y una razón.","C":"una aclaración y una oposición.","D":"una oposición y una conclusión."},"ans":"B","just":"Sin justificación"},{"id":18,"comp":"Lectura Crítica","tema":"General","txt":"¿Cuál de las siguientes opciones es una antítesis de las ideas presentadas sobre que el orden social justo regula la conducta de los hombres de un modo satisfactorio para todos?","opts":{"A":"El orden social justo beneficia a todos los miembros de la comunidad donde tal orden rige.","B":"Un orden social no puede ser justo y no regular de modo satisfactorio el comportamiento de todos los miembros de la comunidad donde tal orden rige.","C":"Los órdenes sociales justos proveen felicidad para todos los miembros de la comunidad donde tales órdenes rigen.","D":"Un orden social puede ser justo y aun así no regular de modo satisfactorio el comportamiento de todos los miembros de la comunidad donde tal orden rige."},"ans":"D","just":"Sin justificación"},{"id":19,"comp":"Lectura Crítica","tema":"General","txt":"La búsqueda de la Justicia es la eterna búsqueda de la felicidad humana. ¿Cuál de las siguientes opciones se puede concluir del enunciado?","opts":{"A":"Quien busca la justicia no encuentrta la felicidad.","B":"Quien busca la justicia también busca la felicidad.","C":"El que busca la justicia nunca encuentra la felicidad.","D":"El que busca la justicia siempre encuentra la felicidad."},"ans":"B","just":"Sin justificación"},{"id":20,"comp":"Lectura Crítica","tema":"General","txt":"Según el enunciado de Hobbes, ¿cuál de las siguientes palabras sería el antónimo más adecuado para la expresión mutua benevolencia?","opts":{"A":"Mutua discrepancia.","B":"Mutua negligencia.","C":"Mutuo desagrado.","D":"Mutua hostilidad."},"ans":"D","just":"Sin justificación"},{"id":21,"comp":"Lectura Crítica","tema":"General","txt":"Por un lado el autor afirma (i) que el miedo origina las sociedades. Por otro lado, (ii) que si no existiera el miedo el hombre buscaría dominar a los demás. ¿Cuál es la relación argumentativa entre estas dos afirmaciones?","opts":{"A":"(i) es una premisa y (ii) la conclusión.","B":"(ii) es una premisa y (i) la conclusión.","C":"(i) y (ii) son premisas de un mismo argumento.","D":"(i) y (ii) presentan la misma conclusión de diferente manera."},"ans":"C","just":"Sin justificación"},{"id":22,"comp":"Lectura Crítica","tema":"General","txt":"¿Qué función cumple el conector sin embargo en el texto de Hobbes?","opts":{"A":"Aclarar la idea de que la ayuda mutua aumenta las comodidades con la idea de que el dominio de los demás es una mejor forma de aumentarlas.","B":"Desmentir la idea de que la ayuda mutua aumenta las comodidades y afirmar que es por medio del dominio de los demás que se logra.","C":"Contrastar la idea de que la ayuda mutua aumenta las comodidades, con la idea de que es más efectivo dominar a los demás para aumentarlas.","D":"Cuestionar la idea de que la ayuda mutua aumenta las comodidades al afirmar que en realidad el dominio puede aumentarlas."},"ans":"C","just":"Sin justificación"},{"id":23,"comp":"Lectura Crítica","tema":"General","txt":"¿Cuál de las siguientes afirmaciones expresa de manera exacta la antítesis de la tesis principal del texto de Hobbes?","opts":{"A":"El origen de las sociedades grandes y duraderas se debe a la desconfianza de los hombres que las conforman.","B":"El origen de las sociedades grandes y duraderas se explica por la indiferencia de los hombres que las conforman.","C":"El origen de las sociedades grandes y duraderas se halla en la obediencia recíproca de los hombres que las conforman.","D":"El origen de las sociedades grandes y duraderas resulta de la colaboración desinteresada de los hombres que las conforman."},"ans":"D","just":"Sin justificación"},{"id":24,"comp":"Lectura Crítica","tema":"General","txt":"De acuerdo con el texto ¿cuál de las siguientes afirmaciones es compatible con la posición del autor sobre la inclinación natural del hombre hacia la dominación de los demás?","opts":{"A":"El dominio es una inclinación desfavorable en tanto que no aumenta las comodidades de la vida.","B":"El dominio es una inclinación deseable en tanto que favorece la cooperación entre los hombres.","C":"El dominio es una inclinación ineludible, pues resulta más eficiente para alcanzar comodidades que la ayuda mutua.","D":"El dominio es una inclinación admirable en tanto que causa el miedo que conlleva a la creación de la sociedad."},"ans":"D","just":"Sin justificación"},{"id":25,"comp":"Lectura Crítica","tema":"General","txt":"En la propaganda, la expresión ESCOGE LA MADRE DE TUS HIJOS, busca dar a entender que:","opts":{"A":"un contrato conlleva responsabilidades mutuas.","B":"al elegir los servicios de la entidad, se aseguran las condiciones para conformar una familia.","C":"el dinero garantiza la armonía de las parejas.","D":"escoger un banco es tan importante como compartir tiempo con la pareja."},"ans":"C","just":"Sin justificación"},{"id":26,"comp":"Lectura Crítica","tema":"General","txt":"De acuerdo con las ideas expresadas en el texto de Hobbes, si los hombres por su naturaleza están más inclinados al dominio que a la sociedad, ¿por qué aparecieron sociedades grandes y duraderas?","opts":{"A":"Es natural para el hombre asociarse con otros para ejercer su dominio con seguridad.","B":"Para ampliar su capacidad de dominio, al hombre le resulta más efectivo vivir en sociedad.","C":"Es propio del hombre evitar todo tipo de dominio a través de las relaciones confiables que le brinda la vida en sociedad.","D":"El hombre busca la seguridad y es más seguro para él vivir en comunidad que estar expuesto a ser dominado por otro."},"ans":"B","just":"Sin justificación"},{"id":27,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Un sismólogo afirma que en cualquier año era más probable que hubiese sismos de baja que de alta magnitud. Según el registro histórico, la relación que justifica la opinión del sismólogo es:","opts":{"A":"A mayor magnitud, mayor cantidad de sismos.","B":"A mayor magnitud, menor cantidad de sismos.","C":"A mayor cantidad de sismos, menor magnitud de estos.","D":"A mayor cantidad de sismos, mayor magnitud de estos."},"ans":"B","just":"Sin justificación"},{"id":28,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"A partir de los datos, una persona predice que en el 2011 se presentarán exactamente 173 sismos de magnitud igual o superior a 6,0 grados. Que suceda lo que esta persona predice es:","opts":{"A":"imposible, pues el número de sismos, de cualquier magnitud, ha ido disminuyendo desde 2007.","B":"poco probable, porque, de acuerdo con la tendencia, el número de sismos en el 2011 será mayor que 173.","C":"incierto, pues a partir del número de sismos de cualquier magnitud presentado en el pasado no se puede predecir el número de sismos futuros.","D":"seguro, pues la tendencia de los dos años anteriores a 2011 indica que se presentarán 151 sismos de magnitud entre 6,0 y 6,9; 21 de magnitud entre 7,0 y 7,9, y 1 de magnitud superior a 8,0."},"ans":"C","just":"Sin justificación"},{"id":29,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"¿Cuál de los siguientes cocientes permite estimar la cantidad de sismos mensuales?","opts":{"A":"Total de sismos sobre meses del año.","B":"Total de sismos por año sobre meses del año.","C":"Total de sismos por año sobre días del año.","D":"Total de sismos sobre su magnitud."},"ans":"B","just":"Sin justificación"},{"id":30,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"El promedio anual de sismos en la primera década del siglo XXI fue 3.783. Los años con el número de sismos más cercano y más lejano al promedio son:","opts":{"A":"2007 y 2010, respectivamente.","B":"2006 y 2005, respectivamente.","C":"2005 y 2002, respectivamente.","D":"2002 y 2008, respectivamente."},"ans":"C","just":"Sin justificación"},{"id":31,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"En la primera década del siglo XXI, la proporción de sismos de magnitud entre 8,0 y 8,9 es de, aproximadamente:","opts":{"A":"1 de cada 3.000 sismos.","B":"1 de cada 12 sismos.","C":"12 de cada 18.000 sismos.","D":"12 de cada 4.000 sismos."},"ans":"A","just":"Sin justificación"},{"id":32,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Patricia afirma que, de la forma en que su tía repartió el dinero (entre los sobrinos y herederos de sobrinos fallecidos), ella obtendrá más dinero que si se dividiera en partes iguales entre los familiares vivos. La afirmación es:","opts":{"A":"incorrecta, pues de cualquiera de las dos formas los herederos reciben 32.000.000.","B":"correcta, pues según el testamento la herencia se distribuye entre 6 personas; de la otra forma se debe repartir entre 8.","C":"incorrecta, pues Patricia recibirá 10% de la herencia, que es menos que el 12,5% que recibiría con la otra distribución.","D":"correcta, pues el dinero se divide solo entre ella y su hermano."},"ans":"C","just":"Sin justificación"},{"id":33,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"¿Qué parte de la herencia de la tía Antonia le corresponde a Juan?","opts":{"A":"La quinta parte.","B":"La mitad.","C":"La octava parte.","D":"La tercera parte."},"ans":"A","just":"Sin justificación"},{"id":34,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Camilo quiere inscribirse a las clases de pilates y escoger el total de sesiones mensual en la que el costo por sesión sea de menor precio. Camilo elige tomar 2 sesiones semanales, ¿logra cumplir su propósito?","opts":{"A":"No, pues el costo por sesión de menor precio lo obtiene si toma 4 sesiones por semana.","B":"Sí, pues tomar 2 sesiones por semana tiene el menor costo mensual de todas las opciones.","C":"No, pues se paga un menor precio por sesión si toma 3 sesiones por semana.","D":"Sí, pues tomar menos sesiones garantiza pagar menos por cada una de ellas."},"ans":"A","just":"Sin justificación"},{"id":35,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Sobre la disponibilidad de clases del instructor de pilates, ¿Cuál de las siguientes afirmaciones es incorrecta?","opts":{"A":"Hay más horas disponibles de 8 a.m. a 1 p.m., que de 1 p.m. a 7 p.m.","B":"Todos los días hay 5 horas disponibles.","C":"Hay más horas disponibles de jueves a sábado, que de lunes a miércoles.","D":"El sábado de 12 m. a 7 p.m. no hay clases asignadas."},"ans":"B","just":"Sin justificación"},{"id":36,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Durante el período 1996-2002, los años en los que se hizo mayor inversión en seguridad vial fueron:","opts":{"A":"1997, 1998, 1999 y 2000.","B":"2000, 2001 y 2002.","C":"1997, 1998 y 1999.","D":"1996, 1997, 1998 y 1999."},"ans":"B","just":"Sin justificación"},{"id":37,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"En enero de 2002, un euro equivalía a 2.800 pesos. Para hallar la inversión en pesos de 194,39 millones de euros, ¿qué procedimiento(s) es correcto(s)? (I. Convertir 194,39 mill a pesos, II. Convertir 2800 pesos a euros, III. Multiplicar 194,39 por 2800 y dividir por años).","opts":{"A":"I y III solamente.","B":"I solamente.","C":"II y III solamente.","D":"II solamente."},"ans":"B","just":"Sin justificación"},{"id":38,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Si una campaña reciclara 2 toneladas diarias de papel y cartón durante 20 días (y cada tonelada ahorra 140L de petróleo y 50,000L de agua), se podrían ahorrar:","opts":{"A":"680 litros de agua.","B":"5.600 litros de agua.","C":"300.000 litros de agua.","D":"2.000.000 litros de agua."},"ans":"D","just":"Sin justificación"},{"id":39,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Alguien afirma: Como al día se ahorran 140L de petróleo por cada tonelada de cartón reciclado en la ciudad, durante un mes se ahorrarán 30 veces 140L. Su afirmación es:","opts":{"A":"correcta, porque el número 30 indica el número de días que tiene un mes.","B":"incorrecta, porque debe tener en cuenta las 150 toneladas de papel y cartón reciclado por día.","C":"correcta, porque tiene en cuenta que día tras día hay 140 litros más de petróleo ahorrado.","D":"incorrecta, porque debe tener en cuenta las 25 toneladas de papel y cartón reciclado por día."},"ans":"B","just":"Sin justificación"},{"id":40,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Los resultados indican que el ave 5 tarda más alimentándose que desplazándose. Esto es correcto, puesto que el tiempo en alimentación excede al de desplazamiento en:","opts":{"A":"20 minutos.","B":"25 minutos.","C":"33 minutos.","D":"45 minutos."},"ans":"B","just":"Sin justificación"},{"id":41,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"El científico afirma que la relación entre cada tiempo de las actividades del ave 1 y del ave 5 es 3:2. La afirmación es:","opts":{"A":"correcta, porque el tiempo invertido en las actividades 2, 5 y 6 por el ave 1 es igual al tiempo invertido en las actividades 4 y 7 por el ave 5.","B":"incorrecta, porque el tiempo invertido en las actividades 3, 6 y 7 por el ave 1 es igual al tiempo invertido en las actividades 4, 6 y 7 por el ave 5.","C":"correcta, porque para la actividad Comunicación la relación entre los tiempos está dada por 15/10 = 3/2.","D":"incorrecta, porque para la actividad Alimentación la relación entre los tiempos está dada por 30/45 = 2/3."},"ans":"D","just":"Sin justificación"},{"id":42,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"¿Cuál ave cumple que: Tarda el doble del tiempo o más en alimentarse que en descansar y La defecación dura menos del 10% del tiempo total?","opts":{"A":"Ave 1","B":"Ave 2","C":"Ave 3","D":"Ave 5"},"ans":"B","just":"Sin justificación"},{"id":43,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Una pista marcada en un extremo con el número 24, en el extremo opuesto está marcada con el número:","opts":{"A":"6","B":"18","C":"36","D":"42"},"ans":"A","just":"Sin justificación"},{"id":44,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Al piloto de un avión que está alineado para aterrizar en el extremo 24 se le pide que cambie su rumbo girando 30 grados a su derecha para que use una pista libre. El número de la nueva pista es:","opts":{"A":"6","B":"21","C":"27","D":"54"},"ans":"C","just":"Sin justificación"},{"id":45,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Un avión que despega en dirección al extremo 32, va hacia el:","opts":{"A":"sureste.","B":"noreste.","C":"suroeste.","D":"noroeste."},"ans":"D","just":"Sin justificación"},{"id":46,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Un tanque almacena la cantidad de jabón líquido para envasar 50 unidades de cada tipo de contenido (300mL, 500mL, 700mL). ¿Cuál es la capacidad del tanque?","opts":{"A":"15 litros.","B":"75 litros.","C":"1.500 litros.","D":"75.000 litros."},"ans":"B","just":"Sin justificación"},{"id":47,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Si se conservara la relación entre el contenido y el precio por unidad, ¿cuál debería ser el precio de la presentación de jabón líquido de 1.800 mL?","opts":{"A":"15.300","B":"18.000","C":"30.600","D":"31.660"},"ans":"C","just":"Sin justificación"},{"id":48,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"La etiqueta del jabón debe especificar tres aspectos: presentación (2), contenido (3 por cada una) y aroma (3). ¿Cuántas etiquetas diferentes debe utilizar la fábrica?","opts":{"A":"2","B":"6","C":"12","D":"18"},"ans":"D","just":"Sin justificación"},{"id":49,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Se otorgan incentivos a vendedores cuyas ventas superen los 500.000. ¿A cuál(es) vendedor(es) se le debe dar?","opts":{"A":"I solamente.","B":"III solamente.","C":"I y II solamente.","D":"I, II y III."},"ans":"C","just":"Sin justificación"},{"id":50,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"Para determinar años luz, un estudiante divide $10^{21}$entre $9,46 \\\\times 10^{12}$ y concluye $10^6$millones. Este procedimiento es incorrecto porque:","opts":{"A":"el denominador de la fracción debe expresarse en potencias de diez.","B":"no se tiene en cuenta la equivalencia de unidades entre las magnitudes involucradas.","C":"para obtener el diámetro se debe determinar el producto entre ambas medidas relacionadas.","D":"el resultado no se expresa en potencias de diez como los otros datos."},"ans":"B","just":"Sin justificación"},{"id":51,"comp":"Razonamiento Cuantitativo","tema":"General","txt":"El organizador de la fiesta mide la altura y el radio del recipiente en el nivel inferior de la fuente de chocolate para estimar su capacidad total. ¿Es verdadero afirmar que las medidas:","opts":{"A":"no son suficientes, pues falta conocer el peso del chocolate y la resistencia.","B":"son suficientes, pues si se llenan los otros recipientes, el chocolate se saldrá.","C":"no son suficientes, pues no toman en cuenta la capacidad de los otros recipientes.","D":"son suficientes, pues el recipiente más bajo es el que recibe el chocolate que se vierte."},"ans":"C","just":"Sin justificación"},{"id":52,"comp":"Investigación Jurídica","tema":"General","txt":"El artículo 58 de la Constitución protege la propiedad privada, pero no de forma absoluta. El interrogante que constituye un problema de investigación jurídica es:","opts":{"A":"¿El carácter social del derecho de propiedad autoriza al legislador para obligar al propietario a ejercer conductas positivas?","B":"¿Las servidumbres son un ejemplo de limitación al derecho de propiedad, pero tampoco gozan de carácter absoluto?","C":"¿Están los ciudadanos autorizados para restringir el derecho de propiedad cuando su ejercicio no sea conveniente?","D":"¿El derecho de propiedad impone la carga de no malversar el patrimonio de sus futuros herederos?"},"ans":"A","just":"Sin justificación"},{"id":53,"comp":"Investigación Jurídica","tema":"General","txt":"Para evaluar laconstitucionalidad de la sanción que fija una comunidad raizal por los delitos de hurto, es necesario establecer si la:","opts":{"A":"gravedad de la sanción depende del valor del objeto hurtado.","B":"sanción es atentatoria de la vida o favorece la esclavitud o la tortura.","C":"pena está prevista en el Código Penal colombiano para el hurto.","D":"comunidad raizal considera el hurto como un acto ilegal."},"ans":"B","just":"Sin justificación"},{"id":54,"comp":"Investigación Jurídica","tema":"General","txt":"Teniendo en cuenta la decisión de la Corte Constitucional sobre la reelección en Colombia, un tema que corresponde a una investigación en Derecho es:","opts":{"A":"La continuidad de una misma persona en el poder es resultado de la voluntad de los partidos políticos.","B":"La prolongación del mandato de un gobernante pone en riesgo la evolución social de los habitantes.","C":"La continuidad de una misma persona en el poder afecta el derecho de representación y elección popular.","D":"La prolongación del mandato de un gobernante consolida las relaciones entre el poder popular y el Gobierno."},"ans":"C","just":"Sin justificación"},{"id":55,"comp":"Investigación Jurídica","tema":"General","txt":"La inclusión de presunciones de hecho a favor de la titularidad de propiedad de las mujeres víctimas (en uniones maritales de hecho) en restitución de tierras es jurídica porque:","opts":{"A":"propone un escenario jurídico que equilibre las vulneraciones al derecho a la propiedad.","B":"establece un procedimiento especial en el marco de la justicia transicional.","C":"reconoce patrones histórico-culturales de discriminación.","D":"limita el marco constitucional a partir del enfoque de género, prevaleciendo la igualdad."},"ans":"A","just":"Sin justificación"},{"id":56,"comp":"Investigación Jurídica","tema":"General","txt":"Una ONG identifica en el conflicto armado un daño colectivo basado en agresiones a la identidad grupal. La respuesta jurídica que corresponde al problema planteado es:","opts":{"A":"El derecho penal es el único que puede establecer qué daños se reconocerán.","B":"El concepto de daño colectivo descrito tiene aspectos sociológicos que es necesario comprender según el derecho.","C":"Las versiones de los familiares son la vía clara para hablar de daño colectivo.","D":"El derecho civil debe articularse para comprender el daño colectivo."},"ans":"B","just":"Sin justificación"},{"id":57,"comp":"Investigación Jurídica","tema":"General","txt":"El 60% de causas del consumo de alucinógenos en jóvenes rurales es violencia intrafamiliar. La solución jurídica que puede proponerse es:","opts":{"A":"despenalizar el consumo de sustancias para reconocer autonomía.","B":"establecer exenciones de impuestos a empresas que contraten a los jóvenes.","C":"comunicarle al respectivo defensor de familia para que dé cumplimiento a medidas de protección.","D":"ampliar las medidas sancionatorias incluida detención domiciliaria."},"ans":"C","just":"Sin justificación"},{"id":58,"comp":"Investigación Jurídica","tema":"General","txt":"Un estudio muestra que el Estado afectó derechos de propietarios de transporte tradicional con los nuevos sistemas de transporte masivo. La conclusión derivada es:","opts":{"A":"El Estado puede ejercer actividades para mejorar el transporte masivo.","B":"Existe responsabilidad extracontractual del Estado, por el daño especial causado.","C":"La población en general puede exigir que se le reparen todos los daños.","D":"Hay acción de reparación directa por parte de la población por falla del servicio."},"ans":"B","just":"Sin justificación"},{"id":59,"comp":"Investigación Jurídica","tema":"General","txt":"La mayoría de las relaciones laborales son flexibles e informales y las normas actuales no les son extensibles. Una solución jurídica para mejorar esto es:","opts":{"A":"agremiar a los comerciantes informales para facilitar su relación económica.","B":"consultar con organismos internacionales mecanismos de solución.","C":"proponer un proyecto de ley para crear acciones especiales para la reclamación de derechos.","D":"reforzar la investigación sobre los diferentes tipos de trabajo informal."},"ans":"C","just":"Sin justificación"},{"id":60,"comp":"Investigación Jurídica","tema":"General","txt":"Doctrinantes afirman que el cambio del Código de Procedimiento Civil al Código General del Proceso es un atentado contra la seguridad jurídica. Un problema específico de investigación sería:","opts":{"A":"¿Cuáles son las implicaciones generadas al debido proceso por el cambio normativo?","B":"¿Es inconstitucional el cambio normativo ya que atenta contra el debido proceso?","C":"¿Cuál es la consecuencia generada al debido proceso en cuanto a seguridad jurídica, por el cambio normativo?","D":"¿De qué forma se vulnera el derecho constitucional al debido proceso por la expedición?"},"ans":"C","just":"Sin justificación"},{"id":61,"comp":"Investigación Jurídica","tema":"General","txt":"La dignidad humana es un principio que puede generar problemas de interpretación por ser indeterminado. Una pregunta de investigación abordable según el derecho es:","opts":{"A":"¿Cuáles son las implicaciones sociales de la aplicación del concepto?","B":"¿Cuál es la noción ontológica del concepto?","C":"¿Cuál es el alcance jurídico del concepto de dignidad humana en el ordenamiento colombiano?","D":"¿Cuál ha sido el desarrollo histórico del concepto?"},"ans":"C","just":"Sin justificación"},{"id":62,"comp":"Investigación Jurídica","tema":"General","txt":"Proyecto sobre acoso sexual (2008-2012) para saber si operadores interpretaron sesgadamente por género. El objetivo específico que NO desarrolla el general es:","opts":{"A":"Realizar análisis jurídico de la legislación penal sobre acoso sexual.","B":"Diagnosticar grados de discrecionalidad de los jueces a través de entrevistas.","C":"Realizar análisis comparativo de las legislaciones penales en el mundo acerca de cómo aparece tipificado el delito.","D":"Evaluar número de condenas y absoluciones en Colombia durante el periodo."},"ans":"C","just":"Sin justificación"},{"id":63,"comp":"Investigación Jurídica","tema":"General","txt":"Para un estudio sobre las implicaciones de la constitucionalización de ordenamientos en el Estado social de derecho, un objetivo general pertinente es:","opts":{"A":"Identificar los factores que dieron paso a la adopción del modelo.","B":"Determinar la influencia de la constitucionalización en la Constitución.","C":"Comparar los elementos de la constitucionalización que influyen en el modelo.","D":"Analizar los elementos iusteóricos que explican la constitucionalización y sus implicaciones en el modeloadoptado en 1991."},"ans":"D","just":"Sin justificación"},{"id":64,"comp":"Investigación Jurídica","tema":"General","txt":"Problema: Evolución histórica de la normatividad colombiana sobre inclusión de niños con discapacidad intelectual. Un objetivo general pertinente sería:","opts":{"A":"Identificar la legislación internacional que protege a la población.","B":"Analizar los programas educativos que pretenden establecer política de inclusión social.","C":"Identificar y valorar las diversas formas de discapacidad intelectual.","D":"Describir y analizar la naturaleza de la legislación colombiana sobre inclusión educativa de niños en situación de discapacidad."},"ans":"D","just":"Sin justificación"},{"id":65,"comp":"Investigación Jurídica","tema":"General","txt":"Una investigadora muestra en conferencia un video de un niño de 6 años con signos de violencia (rasguños, moretones). El comportamiento que puede calificarse como antiético es:","opts":{"A":"Revelar la imagen del rostro de uno de los menores que forma parte de la población estudiada.","B":"Sin concluir la investigación, haber dictado una conferencia sobre el tema.","C":"Dictar una conferencia ante estudiantes y no ante investigadores.","D":"Concluir que el niño sufre violencia, aunque en la entrevista se le ve tranquilo y feliz."},"ans":"A","just":"Sin justificación"},{"id":66,"comp":"Investigación Jurídica","tema":"General","txt":"Gina es abogada e investigadora en una Fiscalía. Una mujer golpeada se acerca creyendo que es empleada y le confiesa aspectos íntimos pidiendo orientación. Lo ético es:","opts":{"A":"Atender la consulta al considerar que puede ejercer las dos funciones paralelamente.","B":"Atender la consulta al considerar que su función como investigadora supera la de abogada.","C":"Informarle que, pese a ser abogada, su papel de investigadora no le permite ejercer ninguna acción en su caso.","D":"Ofrecerle ayuda a cambio de utilizar su caso como objeto de estudio."},"ans":"C","just":"Sin justificación"},{"id":67,"comp":"Investigación Jurídica","tema":"General","txt":"Al detectar deficiencias en citas que podrían ser plagio en trabajos de grado, para divulgar los hallazgos con propósito educativo sin violentar principios éticos, se debe:","opts":{"A":"omitir los nombres de los trabajos y de los estudiantes involucrados.","B":"informar de manera objetiva, veraz y fidedigna los hallazgos.","C":"restringir la información únicamente a los estudiantes que iniciarán trabajos de grado.","D":"divulgar todos los hallazgos evitando afectar la buena imagen institucional."},"ans":"A","just":"Sin justificación"},{"id":68,"comp":"Investigación Jurídica","tema":"General","txt":"En una investigación sobre familias por vínculos naturales vs. jurídicos, se detecta abuso físico a una menor en una familia de vínculo jurídico. Sería antiético si el estudiante:","opts":{"A":"omitiera en los resultados que la familia del abuso estaba constituida por vínculos jurídicos.","B":"ampliara el grupo de familias para encontrar situaciones similares en las naturales.","C":"modificara la hipótesis basándose en hallazgos emergentes.","D":"contrastara entrevistas con estadísticas del ICBF para sustentar su hipótesis."},"ans":"A","just":"Sin justificación"},{"id":69,"comp":"Investigación Jurídica","tema":"General","txt":"En mujeres de una localidad: 50% cabeza de familia, 70% economía del rebusque, 25% víctimas de violencia, 60% exclusión laboral. Una conclusión válida es:","opts":{"A":"La mayoría de las mujeres no tiene un trabajo formal.","B":"En esta comunidad, los hombres no asumen su responsabilidad.","C":"La violencia intrafamiliar es más común en familias con escasos recursos.","D":"La mitad de las mujeres cabeza de familia ha sido víctima de violencia intrafamiliar."},"ans":"A","just":"Sin justificación"},{"id":70,"comp":"Investigación Jurídica","tema":"General","txt":"Juan investiga prácticas de guerra en jóvenes (15-17) de grupos armados con entrevistas a profundidad. Denuncia a los informantes por delitos graves. Esto es antiético porque:","opts":{"A":"realizó entrevistas a jóvenes menores de edad.","B":"denunció a los informantes sin la autorización de sus padres.","C":"denunció a los informantes del proyecto de investigación (vulneración del principio de confidencialidad).","D":"eligió como sujetos de su estudio a menores de edad."},"ans":"C","just":"Sin justificación"},{"id":71,"comp":"Investigación Jurídica","tema":"General","txt":"Un investigador recibe documentos de una comunidad demostrando que un urbanizador cumplió la ley ambiental, pero huele olores nauseabundos. La conducta antiética es:","opts":{"A":"explicar implicaciones éticas de haber entregado documentos privados.","B":"someter a triangulación los documentos entregados.","C":"dar a conocer a los habitantes el propósito de la investigación y su uso.","D":"buscar la intermediación de los habitantes en la negociación monetaria que pretende realizar con el urbanizador."},"ans":"D","just":"Sin justificación"},{"id":72,"comp":"Comunicación Jurídica","tema":"General","txt":"La eficacia directa de los derechos fundamentales tiende a justificar el activismo judicial... La afirmación en el texto de que deben desarrollarse por leyes orgánicas es imprecisa debido a que:","opts":{"A":"la eficacia depende del desarrollo legislativo mas no judicial.","B":"la interpretación judicial se debe atener a lo expresamente señalado.","C":"el Legislador desarrolla los derechos fundamentales por medio de leyes estatutarias.","D":"el Legislador desarrolla los derechos fundamentales por medio de leyes marco."},"ans":"C","just":"Sin justificación"},{"id":73,"comp":"Comunicación Jurídica","tema":"General","txt":"El argumento sobre derecho internacional que mejor se relaciona con el texto (Brotóns) que menciona su menor institucionalización y virtualidad indica que:","opts":{"A":"se constata por la costumbre/jurisprudencia, es autónomo y carece de coercitividad formal plena.","B":"difiere porque regula relaciones entre Estados y requiere menor institucionalización.","C":"se fundamenta en la costumbre para cumplir los objetivos de la sociedad internacional.","D":"cuenta con estructura propia desde contextos transnacionales."},"ans":"A","just":"Sin justificación"},{"id":74,"comp":"Comunicación Jurídica","tema":"General","txt":"Lea este texto jurídico: X, ... apoderada judicial del señor Z, manifiesto que presento Demanda de reconvención... en contra del señor W. El papel de la abogada creadora del texto es:","opts":{"A":"un apoderado de la parte demandante.","B":"un curador para la litis.","C":"un apoderado de la parte demandada.","D":"un litisconsorte necesario."},"ans":"C","just":"Sin justificación"},{"id":75,"comp":"Comunicación Jurídica","tema":"General","txt":"X desea contratar a Y como empleada doméstica 3 días a la semana ($70.000 + aux. transporte). Un abogado debería aconsejar que en el contrato se estipule el pago:","opts":{"A":"del auxilio de transporte, salario diario y algunas prestaciones.","B":"únicamente del salario diario y auxilio de transporte.","C":"del salario y auxilio al tratarse de contrato de prestación de servicios.","D":"del salario diario, auxilio de transporte y de las prestaciones sociales a que haya lugar, así sea trabajo por días."},"ans":"D","just":"Sin justificación"},{"id":76,"comp":"Comunicación Jurídica","tema":"General","txt":"Un proyecto de ley tiene por objeto tipificar el feminicidio como delito autónomo. Se puede afirmar que la autora pretende:","opts":{"A":"sancionar al agresor de mujeres y niños.","B":"proponer la figura jurídica de feminicidio como otro delito del Código Penal colombiano.","C":"promover mayores argumentos para el delito de homicidio.","D":"anular el homicidio del Código Penal y reemplazarlo por feminicidio."},"ans":"B","just":"Sin justificación"},{"id":77,"comp":"Comunicación Jurídica","tema":"General","txt":"Holmes a un joven: ¡Ese no es mi trabajo! (referente a hacer justicia). La fuente formal de la que se discute si los argumentos morales de los fallos coadyuvan o no al derecho es:","opts":{"A":"la ley.","B":"la jurisprudencia.","C":"la costumbre.","D":"la doctrina."},"ans":"B","just":"Sin justificación"},{"id":78,"comp":"Comunicación Jurídica","tema":"General","txt":"Un juez negó la nulidad de una unión marital de hecho con una menor de 13 años, porque el art 140 del CC expresamente indica que opera para el matrimonio. El tipo de interpretación fue:","opts":{"A":"sistemática.","B":"teleológica.","C":"gramatical.","D":"histórica."},"ans":"C","just":"Sin justificación"},{"id":79,"comp":"Comunicación Jurídica","tema":"General","txt":"Pintor que trabaja sin interrupciones, remunerado, bajo directrices, vigilancia y control. El texto jurídico que contempla su situación laboral es:","opts":{"A":"el Código Civil (contrato de obra).","B":"el Código Sustantivo del Trabajo (contrato laboral).","C":"el Decreto 933 de 2003 (contrato de aprendizaje).","D":"la Ley 80 de 1993 (contrato de prestación de servicios)."},"ans":"B","just":"Sin justificación"},{"id":80,"comp":"Comunicación Jurídica","tema":"General","txt":"Adolescente, madre en ejercicio de patria potestad demanda alimentos. Si se aplica interpretación restrictiva al art 288 (que solo dice padres) la decisión sería:","opts":{"A":"rechazo invocando que sus actos permitidos son expresos y la representación no es uno.","B":"rechazo de la demanda invocando la incapacidad relativa de la madre para la representación judicial.","C":"inadmisión exigiendo presencia de abuelos.","D":"inadmisión exigiendo presencia del padre."},"ans":"B","just":"Sin justificación"},{"id":81,"comp":"Comunicación Jurídica","tema":"General","txt":"Un alcalde vulnera el principio de legalidad al tomar una decisión por decreto. El significado del principio de legalidad en este caso se entiende como:","opts":{"A":"la necesidad de contar con norma previa para hablar de delito.","B":"la exigencia de establecer un tributo por órgano competente.","C":"la existencia de un procedimiento previo.","D":"el sometimiento del ejercicio del poder público al ordenamiento jurídico."},"ans":"D","just":"Sin justificación"},{"id":82,"comp":"Comunicación Jurídica","tema":"General","txt":"Pedro dispara 5 veces a Juan, pero Juan había muerto de infarto 2 horas antes. El juez lo declara inocente por atipicidad (ausencia de vida al momento). El método de interpretación fue:","opts":{"A":"gramatical.","B":"sistemático (al conectar la atipicidad por falta del objeto material con la exigencia del tipo).","C":"teleológico.","D":"histórico."},"ans":"B","just":"Sin justificación"},{"id":83,"comp":"Comunicación Jurídica","tema":"General","txt":"Ordenan a Pedro demoler una casa mediante un acto basado en el POT. Hacer uso de lo estipulado en el POT para tomar la decisión es:","opts":{"A":"pertinente, porque el POT permite regular el desarrollo urbanístico.","B":"impertinente, porque solo se aplica a capitales.","C":"pertinente, porque el POT es un acto administrativo.","D":"impertinente, porque la licencia está en trámite."},"ans":"A","just":"Sin justificación"},{"id":84,"comp":"Comunicación Jurídica","tema":"General","txt":"El art 94 prohíbe entender que se niegan derechos inherentes a la persona que no figuren expresamente en la Constitución. Un juez lo interpreta enfatizando la dignidad como fin. El método que prevalece es:","opts":{"A":"teleológico sobre el sistemático.","B":"histórico sobre el gramatical.","C":"gramatical sobre el histórico.","D":"sistemático sobre el gramatical."},"ans":"A","just":"Sin justificación"},{"id":85,"comp":"Comunicación Jurídica","tema":"General","txt":"La Corte Constitucional vincula la muerte digna a la dignidad humana, a la autonomía y a los fines del Estado Social de Derecho. La interpretación sobre la temática es:","opts":{"A":"gramatical y literal.","B":"teológica y confesional.","C":"histórica y gramatical.","D":"sistemática y teleológica."},"ans":"D","just":"Sin justificación"},{"id":86,"comp":"Comunicación Jurídica","tema":"General","txt":"Funcionario destituido por presunta corrupción interpone nulidad y restablecimiento del derecho. De las fuentes formales que el juez debe considerar, la excepción (la que NO corresponde) es:","opts":{"A":"La costumbre, que sirve para interpretar decisiones.","B":"La resolución expedida por el alcalde mediante la cual fue declarado insubsistente. (No es una fuente formal general, es el acto demandado).","C":"Las normas constitucionales de carrera.","D":"Las normas que regulan el empleo público."},"ans":"B","just":"Sin justificación"},{"id":87,"comp":"Comunicación Jurídica","tema":"General","txt":"Comisario de familia rechaza reconocer a un hijo nacido de una mujer casada (apoyado en la Ley 45 de 1936). La decisión del funcionario es:","opts":{"A":"pertinente, porque Juan debe acudir ante un notario para reconocerlo.","B":"impertinente, porque el Código de Infancia le dio competencia al comisario.","C":"pertinente, porque debe acudir ante un juez.","D":"impertinente, por presunción de paternidad."},"ans":"A","just":"Sin justificación"},{"id":88,"comp":"Comunicación Jurídica","tema":"General","txt":"Prestan mérito ejecutivo aquellos títulos valores que contengan una obligación:","opts":{"A":"clara y expresa que el juez defina.","B":"clara y exigible sometida a condición.","C":"clara, expresa y exigible de un agente oficioso.","D":"clara, expresa y exigible, a favor de un acreedor que proviene del deudor."},"ans":"D","just":"Sin justificación"},{"id":89,"comp":"Comunicación Jurídica","tema":"General","txt":"Un funcionario administrativo inaplica reiteradamente una norma legal por considerarla inconstitucional. Su actuación debe rechazarse porque:","opts":{"A":"atenta contra el principio constitucional aplicable a la integración.","B":"desconoce el principio pro homine.","C":"vulnera el principio de corrección funcional, pues no tiene competencia para declarar inconstitucionales las disposiciones legales.","D":"viola el principio de fuerza normativa."},"ans":"C","just":"Sin justificación"},{"id":90,"comp":"Comunicación Jurídica","tema":"General","txt":"A una persona privada de la libertad se le declara inocente y reclama al Estado. La conclusión sobre la responsabilidad del Estado se infiere de la premisa porque:","opts":{"A":"siempre hay posibilidad de responsabilidad extracontractual.","B":"la privación injusta o no acarrea responsabilidad.","C":"cualquier daño genera responsabilidad estatal.","D":"demostrado que la privación fue injusta, cabe la responsabilidad del Estado por daños sufridos."},"ans":"D","just":"Sin justificación"},{"id":91,"comp":"Comunicación Jurídica","tema":"General","txt":"Un juez afirma en tutela que los tratados de DDHH tienen jerarquía superior a la Constitución. El error de esta postura se sintetiza en:","opts":{"A":"Desconocer el valor igualitario que existe entre los tratados de DDHH (bloque de constitucionalidad) y las normas constitucionales.","B":"Olvidar que el legislativo los aprueba para tener valor supraconstitucional.","C":"Omitir que el control constitucional es necesario para hablar de jerarquía.","D":"Relegar el valor supraconstitucional solo a los que hablan de DDHH."},"ans":"A","just":"Sin justificación"}];</script>
 
-    <h2>1. Aceptación de los Términos</h2>
-    <p>Al usar este bot aceptas estos Términos de Servicio. Si no estás de acuerdo, por favor no lo utilices.</p>
+    <!-- PANTALLA DE INICIO (DASHBOARD) -->
+    <div id="view-dashboard" class="flex-1 flex flex-col p-6 max-w-7xl mx-auto w-full h-full">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Simulacro CGR</h1>
+                <p class="text-slate-500">Selecciona una competencia para comenzar</p>
+            </div>
+            <button onclick="app.resetAll()" class="text-xs text-red-500 font-bold hover:bg-red-50 px-3 py-2 rounded-lg transition border border-transparent hover:border-red-100">
+                <i class="fa-solid fa-trash-can mr-1"></i> Reiniciar Progreso
+            </button>
+        </header>
 
-    <h2>2. Descripción del Servicio</h2>
-    <p>El bot responde automáticamente a preguntas frecuentes sobre:</p>
-    <ul>
-        <li>Fechas de entregas y exámenes</li>
-        <li>Requisitos de trabajos y normas del curso</li>
-        <li>Citación bibliográfica y otros temas académicos del curso</li>
-    </ul>
-    <p>El bot está diseñado únicamente con fines educativos y académicos.</p>
+        <div class="flex-1 overflow-y-auto pb-8 pr-2">
+            <div id="competence-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Se generan dinámicamente -->
+            </div>
+        </div>
+    </div>
 
-    <h2>3. Uso Permitido</h2>
-    <p>Está permitido usar el bot solo para consultas relacionadas con el curso de Derecho. Queda prohibido:</p>
-    <ul>
-        <li>Usar lenguaje ofensivo, discriminatorio o inapropiado</li>
-        <li>Enviar spam, mensajes masivos o contenido no relacionado con el curso</li>
-        <li>Intentar extraer información personal de otros estudiantes</li>
-        <li>Usar el bot con fines comerciales o no educativos</li>
-    </ul>
+    <!-- PANTALLA DE PREGUNTAS -->
+    <div id="view-question" class="hidden h-full flex flex-col max-w-5xl mx-auto w-full bg-white md:my-6 md:rounded-2xl shadow-2xl overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-white border-b border-slate-100 p-6 flex justify-between items-center">
+            <button onclick="app.goHome()" class="text-slate-400 hover:text-slate-700 transition flex items-center gap-2 font-bold text-sm">
+                <i class="fa-solid fa-arrow-left"></i> Volver
+            </button>
+            
+            <div class="flex flex-col items-center w-1/3">
+                <span id="q-comp-title" class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded mb-2">Competencia</span>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div id="q-progress" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
 
-    <h2>4. Limitaciones del Servicio</h2>
-    <p>El bot responde con información predefinida y automática. No sustituye la atención personal del monitor. Para dudas complejas o casos particulares, debes contactar directamente al monitor.</p>
-    <p>No garantizamos que el bot esté disponible las 24 horas ni que responda a todas las preguntas posibles.</p>
+            <div class="text-sm font-bold text-slate-600 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100">
+                <span id="q-current">1</span> / <span id="q-total">10</span>
+            </div>
+        </div>
 
-    <h2>5. Privacidad y Datos</h2>
-    <p>El tratamiento de tus datos se rige por nuestra <a href="https://www.termsfeed.com/live/7c0b73c7-6e74-4651-ada4-28b00dcebb6b">Política de Privacidad</a> y las <a href="https://darksideofcmas.github.io/datadelete/">Instrucciones de Eliminación de Datos</a>.</p>
+        <!-- Scroll Area -->
+        <div class="flex-1 overflow-y-auto p-6 md:p-10 bg-slate-50 relative" id="q-scroll-area">
+            <div class="max-w-3xl mx-auto fade-in pb-20">
+                
+                <div class="mb-8">
+                    <span id="q-topic" class="inline-block px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-500 text-xs font-bold mb-4 shadow-sm">Tema</span>
+                    <h2 id="q-text" class="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed">
+                        <!-- Pregunta aquí -->
+                    </h2>
+                </div>
 
-    <h2>6. Responsabilidad</h2>
-    <p>El monitor y el creador del bot no se hacen responsables por:</p>
-    <ul>
-        <li>Errores en las respuestas automáticas</li>
-        <li>Pérdida de información enviada al bot</li>
-        <li>Daños derivados del uso del servicio</li>
-    </ul>
+                <div id="q-options" class="grid gap-3 mb-8">
+                    <!-- Opciones aquí -->
+                </div>
 
-    <h2>7. Modificaciones</h2>
-    <p>Podemos actualizar estos términos en cualquier momento. Te recomendamos revisarlos periódicamente. El uso continuado del bot después de cambios implica aceptación de los nuevos términos.</p>
+                <!-- Feedback Box -->
+                <div id="q-feedback" class="hidden bg-blue-50 border border-blue-100 rounded-xl p-6 shadow-sm fade-in">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-blue-600 mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-blue-800 text-sm mb-1">Justificación:</h4>
+                            <p id="q-just" class="text-sm text-blue-900 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
 
-    <h2>8. Contacto</h2>
-    <p>Para cualquier consulta sobre estos términos, puedes escribir al monitor por WhatsApp o al correo: <strong>[carlosmarioagamez@gmail.com]</strong></p>
+            </div>
+        </div>
 
-    <p><em>Estos Términos de Servicio se aplican exclusivamente al bot del asistente del monitor de Derecho.</em></p>
+        <!-- Footer -->
+        <div class="bg-white border-t border-slate-100 p-4 md:px-8 py-4 flex justify-between items-center">
+            <button onclick="app.nav(-1)" class="px-5 py-2.5 text-slate-500 hover:text-slate-800 font-bold transition rounded-lg hover:bg-slate-50">
+                Anterior
+            </button>
+            
+            <div class="flex gap-3">
+                <button id="btn-verify" onclick="app.check()" class="px-6 py-2.5 bg-white border-2 border-indigo-100 text-indigo-600 rounded-xl font-bold hover:bg-indigo-50 hover:border-indigo-200 transition hidden">
+                    Verificar
+                </button>
+                <button id="btn-next" onclick="app.nav(1)" class="px-8 py-2.5 bg-slate-900 text-white rounded-xl font-bold shadow-lg hover:bg-black hover:-translate-y-0.5 transition flex items-center gap-2">
+                    Siguiente <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA RESULTADOS -->
+    <div id="view-results" class="hidden h-full flex flex-col p-6 max-w-6xl mx-auto w-full fade-in">
+        <header class="flex justify-between items-center mb-8">
+            <button onclick="app.goHome()" class="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold transition bg-white px-4 py-2 rounded-lg shadow-sm">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Menú
+            </button>
+            <h2 class="text-2xl font-bold text-slate-800">Resultados del Módulo</h2>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center flex flex-col items-center card-hover">
+                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xl mb-2"><i class="fa-solid fa-check"></i></div>
+                <div id="r-ok" class="text-4xl font-extrabold text-slate-800 mb-1">0</div>
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Aciertos</div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center flex flex-col items-center card-hover">
+                <div class="w-12 h-12 bg-red-100 text-red-500 rounded-full flex items-center justify-center text-xl mb-2"><i class="fa-solid fa-xmark"></i></div>
+                <div id="r-err" class="text-4xl font-extrabold text-slate-800 mb-1">0</div>
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Errores</div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center flex flex-col items-center card-hover">
+                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xl mb-2"><i class="fa-solid fa-chart-pie"></i></div>
+                <div id="r-pct" class="text-4xl font-extrabold text-slate-800 mb-1">0%</div>
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Efectividad</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1 min-h-0">
+            <!-- Temas a Reforzar -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col overflow-hidden">
+                <div class="p-5 border-b border-slate-100 bg-red-50/50 flex justify-between items-center">
+                    <h3 class="font-bold text-red-800 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Temas a Reforzar</h3>
+                    <span class="text-xs bg-white px-2 py-1 rounded text-red-500 font-bold border border-red-100">&lt; 70%</span>
+                </div>
+                <div id="topic-list" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
+            </div>
+
+            <!-- Revisión Detallada -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col overflow-hidden">
+                <div class="p-5 border-b border-slate-100 bg-slate-50">
+                    <h3 class="font-bold text-slate-700"><i class="fa-solid fa-list-check mr-2"></i> Revisión Detallada</h3>
+                </div>
+                <div id="detail-list" class="flex-1 overflow-y-auto p-0 divide-y divide-slate-100"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGICA APP -->
+    <script>
+        const app = {
+            state: { answers: {}, verified: {}, results: {} }, // answers: id->letter, verified: id->bool, results: id->bool(correct)
+            sections: [],
+            currentSecIdx: 0,
+            currentQIdx: 0,
+
+            init: function() {
+                // Identificar secciones únicas
+                this.sections = [...new Set(DB.map(q => q.comp))].sort();
+                
+                // Cargar estado previo
+                const saved = localStorage.getItem('cgr_app_v3');
+                if(saved) this.state = JSON.parse(saved);
+                
+                this.renderDashboard();
+            },
+
+            save: function() {
+                localStorage.setItem('cgr_app_v3', JSON.stringify(this.state));
+            },
+
+            resetAll: function() {
+                Swal.fire({
+                    title: '¿Reiniciar todo?',
+                    text: "Se borrará todo tu progreso.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    confirmButtonText: 'Sí, borrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.removeItem('cgr_app_v3');
+                        location.reload();
+                    }
+                });
+            },
+
+            // --- NAVEGACIÓN ---
+            
+            goHome: function() {
+                this.switchView('view-dashboard');
+                this.renderDashboard();
+            },
+
+            switchView: function(viewId) {
+                ['view-dashboard', 'view-question', 'view-results'].forEach(id => {
+                    document.getElementById(id).classList.add('hidden');
+                });
+                document.getElementById(viewId).classList.remove('hidden');
+            },
+
+            // --- DASHBOARD ---
+
+            renderDashboard: function() {
+                const grid = document.getElementById('competence-grid');
+                grid.innerHTML = '';
+
+                this.sections.forEach((sec, idx) => {
+                    // Calcular progreso de esta sección
+                    const sectionQs = DB.filter(q => q.comp === sec);
+                    const total = sectionQs.length;
+                    const answered = sectionQs.filter(q => this.state.answers[q.id]).length;
+                    const pct = total > 0 ? Math.round((answered/total)*100) : 0;
+
+                    // Crear tarjeta
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-2xl shadow-sm border border-slate-200 card-hover cursor-pointer flex flex-col h-full transition';
+                    card.onclick = () => this.startSection(idx);
+
+                    // Estilos dinámicos
+                    let barColor = pct === 100 ? 'bg-green-500' : (pct > 0 ? 'bg-indigo-500' : 'bg-slate-200');
+                    let btnText = pct === 0 ? 'Iniciar' : (pct === 100 ? 'Repasar' : 'Continuar');
+                    let icon = pct === 100 ? 'fa-check' : 'fa-play';
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 rounded-xl ${pct===100 ? 'bg-green-100 text-green-600' : 'bg-indigo-50 text-indigo-600'} flex items-center justify-center text-lg">
+                                <i class="fa-solid ${icon}"></i>
+                            </div>
+                            <span class="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded border border-slate-100">${answered} / ${total}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-2 line-clamp-2" title="${sec}">${sec}</h3>
+                        <div class="w-full bg-slate-100 rounded-full h-2 mb-4 overflow-hidden">
+                            <div class="h-full ${barColor} transition-all duration-500" style="width: ${pct}%"></div>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-slate-50 flex justify-between items-center text-sm">
+                            <span class="font-medium text-slate-500">${pct}%</span>
+                            <span class="font-bold text-indigo-600 hover:underline">${btnText}</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            },
+
+            // --- SECCIÓN DE PREGUNTAS ---
+
+            startSection: function(secIdx) {
+                this.currentSecIdx = secIdx;
+                
+                // Encontrar la primera pregunta sin responder para continuar desde ahí
+                const qs = this.getSectionQuestions();
+                const firstUnanswered = qs.findIndex(q => !this.state.answers[q.id]);
+                this.currentQIdx = firstUnanswered !== -1 ? firstUnanswered : 0;
+
+                this.switchView('view-question');
+                this.renderQuestion();
+            },
+
+            getSectionQuestions: function() {
+                return DB.filter(q => q.comp === this.sections[this.currentSecIdx]);
+            },
+
+            renderQuestion: function() {
+                const qs = this.getSectionQuestions();
+                const q = qs[this.currentQIdx];
+                const savedAns = this.state.answers[q.id];
+                const isVerified = this.state.verified[q.id];
+
+                // Header info
+                document.getElementById('q-comp-title').innerText = q.comp;
+                document.getElementById('q-current').innerText = this.currentQIdx + 1;
+                document.getElementById('q-total').innerText = qs.length;
+                document.getElementById('q-progress').style.width = Math.round(((this.currentQIdx+1)/qs.length)*100) + '%';
+
+                // Contenido
+                document.getElementById('q-topic').innerText = q.tema;
+                document.getElementById('q-text').innerText = q.txt;
+                document.getElementById('q-just').innerText = q.just;
+
+                // Opciones
+                const optsContainer = document.getElementById('q-options');
+                optsContainer.innerHTML = '';
+
+                ['A','B','C','D'].forEach(letter => {
+                    if(!q.opts[letter]) return;
+
+                    const btn = document.createElement('div');
+                    const isSelected = savedAns === letter;
+                    
+                    let className = "opt-card w-full p-4 rounded-xl cursor-pointer flex gap-4 items-start bg-white relative overflow-hidden group";
+                    
+                    // Lógica de colores si está verificado
+                    if (isVerified) {
+                        if (letter === q.ans) {
+                            className = "w-full p-4 rounded-xl border-2 border-green-500 bg-green-50 flex gap-4 items-start"; // Correcta
+                        } else if (isSelected && letter !== q.ans) {
+                            className = "w-full p-4 rounded-xl border-2 border-red-500 bg-red-50 flex gap-4 items-start"; // Error
+                        } else {
+                            className = "w-full p-4 rounded-xl border border-slate-100 bg-slate-50 opacity-50 flex gap-4 items-start grayscale"; // Resto
+                        }
+                    } else if (isSelected) {
+                        className += " selected";
+                    }
+
+                    btn.className = className;
+
+                    // Click event (solo si no está verificado)
+                    if (!isVerified) {
+                        btn.onclick = () => {
+                            this.state.answers[q.id] = letter;
+                            this.state.results[q.id] = (letter === q.ans);
+                            this.save();
+                            this.renderQuestion(); // Re-render para actualizar UI
+                        };
+                    }
+
+                    btn.innerHTML = `
+                        <div class="w-8 h-8 rounded-full border-2 border-slate-200 flex items-center justify-center flex-shrink-0 text-sm font-bold mt-0.5 bg-white transition-colors ${isSelected ? 'border-indigo-600 text-indigo-600' : ''}">${letter}</div>
+                        <div class="flex-1 text-sm md:text-base font-medium leading-relaxed text-slate-700 z-10">${q.opts[letter]}</div>
+                    `;
+                    optsContainer.appendChild(btn);
+                });
+
+                // Control de visualización Feedback
+                const fbBox = document.getElementById('q-feedback');
+                if (isVerified) fbBox.classList.remove('hidden');
+                else fbBox.classList.add('hidden');
+
+                // Botones
+                const btnVerify = document.getElementById('btn-verify');
+                const btnNext = document.getElementById('btn-next');
+
+                // Mostrar botón verificar si hay respuesta y aun no verificado
+                if (savedAns && !isVerified) {
+                    btnVerify.classList.remove('hidden');
+                } else {
+                    btnVerify.classList.add('hidden');
+                }
+
+                // Texto botón siguiente
+                if (this.currentQIdx === qs.length - 1) {
+                    btnNext.innerHTML = 'Finalizar Sección <i class="fa-solid fa-flag-checkered ml-2"></i>';
+                    btnNext.onclick = () => this.finishSection();
+                } else {
+                    btnNext.innerHTML = 'Siguiente <i class="fa-solid fa-arrow-right ml-2"></i>';
+                    btnNext.onclick = () => this.nav(1);
+                }
+            },
+
+            check: function() {
+                const qs = this.getSectionQuestions();
+                const q = qs[this.currentQIdx];
+                this.state.verified[q.id] = true;
+                this.save();
+                this.renderQuestion();
+            },
+
+            nav: function(dir) {
+                const qs = this.getSectionQuestions();
+                const next = this.currentQIdx + dir;
+                if(next >= 0 && next < qs.length) {
+                    this.currentQIdx = next;
+                    this.renderQuestion();
+                    document.getElementById('q-scroll-area').scrollTop = 0;
+                }
+            },
+
+            finishSection: function() {
+                const qs = this.getSectionQuestions();
+                const unanswered = qs.filter(q => !this.state.answers[q.id]);
+
+                if (unanswered.length > 0) {
+                    Swal.fire({
+                        title: 'Sección Incompleta',
+                        text: `Faltan ${unanswered.length} preguntas. ¿Quieres ver resultados de todos modos?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, finalizar',
+                        cancelButtonText: 'Continuar'
+                    }).then((r) => { if (r.isConfirmed) this.showResults(qs); });
+                } else {
+                    this.showResults(qs);
+                }
+            },
+
+            // --- RESULTADOS ---
+
+            showResults: function(qs) {
+                this.switchView('view-results');
+                
+                let correctCount = 0;
+                const topicStats = {}; // { 'Tema': {total:0, ok:0} }
+
+                qs.forEach(q => {
+                    const isOk = this.state.results[q.id];
+                    if (isOk) correctCount++;
+                    
+                    if (!topicStats[q.tema]) topicStats[q.tema] = { total: 0, ok: 0 };
+                    topicStats[q.tema].total++;
+                    if (isOk) topicStats[q.tema].ok++;
+                });
+
+                // Generales
+                document.getElementById('r-ok').innerText = correctCount;
+                document.getElementById('r-err').innerText = qs.length - correctCount;
+                document.getElementById('r-pct').innerText = Math.round((correctCount/qs.length)*100) + '%';
+
+                // Temas a reforzar (< 70%)
+                const topicList = document.getElementById('topic-list');
+                topicList.innerHTML = '';
+                
+                const weakTopics = Object.entries(topicStats)
+                    .map(([name, data]) => ({ name, pct: Math.round((data.ok/data.total)*100) }))
+                    .sort((a,b) => a.pct - b.pct);
+
+                let hasWeak = false;
+                weakTopics.forEach(t => {
+                    if (t.pct < 70) {
+                        hasWeak = true;
+                        const item = document.createElement('div');
+                        item.className = 'flex justify-between items-center p-3 bg-red-50 border border-red-100 rounded-lg text-sm';
+                        item.innerHTML = `<span class="font-bold text-red-800 truncare mr-2">${t.name}</span><span class="bg-white px-2 py-0.5 rounded text-red-600 font-bold border border-red-200 shadow-sm">${t.pct}%</span>`;
+                        topicList.appendChild(item);
+                    }
+                });
+
+                if (!hasWeak) {
+                    topicList.innerHTML = '<div class="p-6 text-center text-green-600 bg-green-50 rounded-xl border border-green-100 font-medium">¡Excelente trabajo! No tienes temas críticos.</div>';
+                }
+
+                // Detalle Preguntas
+                const detailList = document.getElementById('detail-list');
+                detailList.innerHTML = '';
+
+                qs.forEach((q, i) => {
+                    const ans = this.state.answers[q.id];
+                    const isOk = this.state.results[q.id];
+                    
+                    const item = document.createElement('div');
+                    item.className = 'p-4 hover:bg-slate-50 cursor-pointer transition border-b border-slate-100 last:border-0 flex gap-3 items-start group';
+                    
+                    item.onclick = () => {
+                        Swal.fire({
+                            title: isOk ? '<span class="text-green-600">¡Correcto!</span>' : '<span class="text-red-600">Incorrecto</span>',
+                            html: `
+                                <div class="text-left text-sm space-y-3">
+                                    <p class="bg-slate-50 p-3 rounded font-medium text-slate-700">${q.txt}</p>
+                                    <div class="grid gap-2">
+                                        <div class="p-2 border rounded ${isOk ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}">
+                                            <span class="text-xs font-bold uppercase opacity-50 block">Tu respuesta</span>
+                                            <b>${ans || 'Ninguna'})</b> ${ans ? q.opts[ans] : ''}
+                                        </div>
+                                        ${!isOk ? `<div class="p-2 border rounded bg-green-50 border-green-200">
+                                            <span class="text-xs font-bold uppercase opacity-50 block text-green-700">Correcta</span>
+                                            <b>${q.ans})</b> ${q.opts[q.ans]}
+                                        </div>` : ''}
+                                    </div>
+                                    <div class="bg-blue-50 p-3 rounded border border-blue-100 text-blue-900 text-xs">
+                                        <b>Justificación:</b> ${q.just}
+                                    </div>
+                                </div>
+                            `,
+                            confirmButtonColor: '#1e293b'
+                        });
+                    };
+
+                    let icon = !ans ? '<i class="fa-solid fa-minus text-slate-300"></i>' : (isOk ? '<i class="fa-solid fa-check text-green-500"></i>' : '<i class="fa-solid fa-xmark text-red-500"></i>');
+
+                    item.innerHTML = `
+                        <div class="w-6 flex justify-center pt-0.5">${icon}</div>
+                        <div class="flex-1 text-sm text-slate-600 font-medium group-hover:text-indigo-600 transition truncate">${i+1}. ${q.txt}</div>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-300 group-hover:text-indigo-400"></i>
+                    `;
+                    detailList.appendChild(item);
+                });
+            }
+        };
+
+        // Iniciar App Generada
+        window.onload = () => app.init();
+    </script>
 </body>
 </html>
